@@ -6,6 +6,7 @@ namespace KID
 {
     public class RandomSkill : MonoBehaviour
     {
+        #region 欄位
         [Header("技能圖片：模糊與正常")]
         public Sprite[] spriteBlurs;        // 模糊圖片陣列 16
         public Sprite[] spriteSkills;       // 技能圖片陣列 8
@@ -23,6 +24,8 @@ namespace KID
         private AudioSource aud;            // 音源元件
         private Text textSkill;             // 技能名稱
         private GameObject panelSkill;      // 隨機技能物件
+        private int index;                  // 隨機技能編號
+        #endregion
 
         private void Start()
         {
@@ -43,6 +46,7 @@ namespace KID
         private void ChooseSkill()
         {
             panelSkill.SetActive(false);                                // 隱藏隨機技能物件
+            print("玩家選取的技能為：" + nameSkills[index]);              // 紀錄玩家選的技能
         }
 
         /// <summary>
@@ -63,10 +67,10 @@ namespace KID
                 }
             }
 
-            int r = Random.Range(0, spriteSkills.Length);       // 隨機值 = 隨機(最小值，最大值)
-            img.sprite = spriteSkills[r];                       // 圖片元件.圖片 = 技能圖片陣列[隨機值]
+            index = Random.Range(0, spriteSkills.Length);       // 隨機值 = 隨機(最小值，最大值)
+            img.sprite = spriteSkills[index];                       // 圖片元件.圖片 = 技能圖片陣列[隨機值]
             aud.PlayOneShot(soundGetSkill, 0.8f);
-            textSkill.text = nameSkills[r];                     // 技能名稱.文字 = 技能名稱[隨機值]
+            textSkill.text = nameSkills[index];                     // 技能名稱.文字 = 技能名稱[隨機值]
 
             btn.interactable = true;                            // 按鈕可以點選
         }
