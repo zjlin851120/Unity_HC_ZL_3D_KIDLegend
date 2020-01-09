@@ -7,22 +7,35 @@ public class Player : MonoBehaviour
 
     private Rigidbody rig;
     private FixedJoystick joystick;
-    private Animator ani;            // 動畫控制器元件
-    private Transform target;        // 目標物件
+    private Animator ani;               // 動畫控制器元件
+    private Transform target;           // 目標物件
+    private LevelManager levelManager;
 
     private void Start()
     {
         rig = GetComponent<Rigidbody>();
         ani = GetComponent<Animator>();  // 動畫控制器 = 取得元件<動畫控制器>()
         joystick = GameObject.Find("虛擬搖桿").GetComponent<FixedJoystick>();
+        
         //target = GameObject.Find("目標").GetComponent<Transform>();
         target = GameObject.Find("目標").transform;
+
+        levelManager = FindObjectOfType<LevelManager>();    // 透過類行尋找物件 (場景上只有一個)
     }
 
     // 固定更新：一秒執行 50 次 - 處理物理行為
     private void FixedUpdate()
     {
         Move();
+    }
+
+    //  碰到物件身上有 IsTrigger 碰撞器執行一次
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.name == "傳送區域")
+        {
+            StartCoroutine(levelManager.NextLevel());   // 協程方法，必須要用 啟動協程
+        }
     }
 
     /// <summary>
