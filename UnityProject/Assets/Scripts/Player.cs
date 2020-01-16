@@ -4,6 +4,8 @@ public class Player : MonoBehaviour
 {
     [Header("速度"), Range(0, 1500)]
     public float speed = 1.5f;
+    [Header("玩家資料")]
+    public PlayerData data;
 
     private Rigidbody rig;
     private FixedJoystick joystick;
@@ -57,5 +59,14 @@ public class Player : MonoBehaviour
 
         Vector3 posTarget = new Vector3(target.position.x, transform.position.y, target.position.z);    // 目標座標 = 新 三維向量(目標.X，玩家.Y，目標.Z)
         transform.LookAt(posTarget);                                                                    // 玩家變形.看著(目標座標)
+    }
+
+    /// <summary>
+    /// 受傷
+    /// </summary>
+    /// <param name="damage">接收的傷害值</param>
+    public void Hit(float damage)
+    {
+        data.hp -= damage;
     }
 }

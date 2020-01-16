@@ -9,6 +9,7 @@ public class Enemy : MonoBehaviour
     private Animator ani;                       // 動畫控制器
     private NavMeshAgent nav;                   // 導覽網格代理器
     private Transform target;                   // 目標變形
+    private float timer;                        // 計時器
 
     private void Start()
     {
@@ -33,7 +34,13 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void Wait()
     {
+        ani.SetBool("跑步開關", false);      // 等待動畫
+        timer += Time.deltaTime;            // 計時器累加
 
+        if (timer >= data.cd)               // 如果 計時器 >= 資料.冷卻
+        {
+            Attack();                       // 攻擊
+        }
     }
 
     /// <summary>
@@ -44,16 +51,28 @@ public class Enemy : MonoBehaviour
         Vector3 posTarget = target.position;    // 區域變數三維向量 目標位置  = 目標.座標
         posTarget.y = transform.position.y;     // 目標位置.Y = 本身.Y
         transform.LookAt(posTarget);            // 變形.看著(目標位置)
-        ani.SetBool("跑步開關", true);           // 動畫.設定布林值(參數，勾選)
         nav.SetDestination(target.position);    // 代理器.設定目的地(目標.座標)
+
+        // 如果 代理器.剩餘距離 < 資料.停止距離
+        if (nav.remainingDistance < data.stopDistance)
+        {
+            Wait();                                 // 等待
+        }
+        else
+        {
+            ani.SetBool("跑步開關", true);           // 走路
+        }
     }
 
+    // protected 保護：允許子類別存取，禁止外部類別存取
+    // virtual 虛擬：允許子類別複寫
     /// <summary>
     /// 攻擊
     /// </summary>
-    private void Attack()
+    protected virtual void Attack()
     {
-
+        ani.SetTrigger("攻擊觸發");          // 攻擊動畫
+        timer = 0;                          // 歸零
     }
 
     /// <summary>
