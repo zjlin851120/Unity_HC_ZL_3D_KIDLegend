@@ -9,9 +9,10 @@ public class Player : MonoBehaviour
 
     private Rigidbody rig;
     private FixedJoystick joystick;
-    private Animator ani;               // 動畫控制器元件
-    private Transform target;           // 目標物件
-    private LevelManager levelManager;
+    private Animator ani;                   // 動畫控制器元件
+    private Transform target;               // 目標物件
+    private LevelManager levelManager;      // 關卡管理器
+    private HpValueManager hpValueManager;  // 血條數值管理器
 
     private void Start()
     {
@@ -22,7 +23,8 @@ public class Player : MonoBehaviour
         //target = GameObject.Find("目標").GetComponent<Transform>();
         target = GameObject.Find("目標").transform;
 
-        levelManager = FindObjectOfType<LevelManager>();    // 透過類行尋找物件 (場景上只有一個)
+        levelManager = FindObjectOfType<LevelManager>();                // 透過類行尋找物件 (場景上只有一個)
+        hpValueManager = GetComponentInChildren<HpValueManager>();      // 取得子物件元件
     }
 
     // 固定更新：一秒執行 50 次 - 處理物理行為
@@ -68,5 +70,7 @@ public class Player : MonoBehaviour
     public void Hit(float damage)
     {
         data.hp -= damage;
+        hpValueManager.SetHp(data.hp, data.hpMax);                          // 更新血量(目前，最大)
+        StartCoroutine(hpValueManager.ShowValue(damage, "-", Color.white)); // 啟動協程
     }
 }
