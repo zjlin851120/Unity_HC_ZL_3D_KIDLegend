@@ -16,7 +16,7 @@ public class Enemy : MonoBehaviour
         ani = GetComponent<Animator>();
         nav = GetComponent<NavMeshAgent>();
         nav.speed = data.speed;                         // 調整 代理器.速度
-        nav.stoppingDistance = data.stopDistance;       
+        nav.stoppingDistance = data.stopDistance;
 
         target = GameObject.Find("鼠王").transform;   // 目標 = 尋找
     }
