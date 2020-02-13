@@ -14,7 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 0
   hp: 100
-  attack: 1000
+  hpMax: 100
+  attack: 10
   cd: 2.5
   stopDistance: 50
   attackY: 2.3
