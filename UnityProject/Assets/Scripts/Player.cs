@@ -13,6 +13,8 @@ public class Player : MonoBehaviour
     private Transform target;               // 目標物件
     private LevelManager levelManager;      // 關卡管理器
     private HpValueManager hpValueManager;  // 血條數值管理器
+    private Vector3 posBullet;              // 子彈座標
+    private float timer;                    // 計時器
 
     private void Start()
     {
@@ -100,8 +102,26 @@ public class Player : MonoBehaviour
         levelManager.HideRevival();                         // 關卡管理器.關閉復活畫面
     }
 
+    /// <summary>
+    /// 攻擊
+    /// </summary>
     private void Attack()
     {
-        ani.SetTrigger("攻擊觸發");
+        if (timer < data.cd)            // 如果 計時器 < 冷卻時間
+        {
+            timer += Time.deltaTime;    // 計時器 累加
+        }
+        else
+        {
+            timer = 0;                  // 計時器 歸零
+            ani.SetTrigger("攻擊觸發");  // 攻擊動畫
+        }
+    }
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;                                                                           // 圖示.顏色 = 顏色
+        posBullet = transform.position + transform.forward * data.attackZ + transform.up * data.attackY;    // 子彈座標 = 飛龍.座標 + 飛龍前方 * Z + 飛龍上方 * Y
+        Gizmos.DrawSphere(posBullet, 0.1f);                                                                 // 圖示.繪製球體(中心點，半徑)
     }
 }
