@@ -23,9 +23,9 @@ public class Bullet : MonoBehaviour
             other.GetComponent<Player>().Hit(damage);       // 取得<玩家>().受傷(傷害值)
             Destroy(gameObject);
         }
-        else if (player && other.tag == "敵人")                         // 如果碰到.名稱 = "鼠王"
+        else if (player && other.tag == "敵人" && other.GetComponent<Enemy>())         // 如果碰到.名稱 = "鼠王"
         {
-            other.GetComponent<Enemy>().Hit(damage);       // 取得<玩家>().受傷(傷害值)
+            other.GetComponent<Enemy>().Hit(damage);                                    // 取得<玩家>().受傷(傷害值)
             Destroy(gameObject);
         }
     }

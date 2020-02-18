@@ -23,3 +23,4 @@ MonoBehaviour:
   attackDelay: 0.5
   attackZ: 1.6
   bulletPower: 1200
+  coinRange: {x: 80, y: 130}
