@@ -56,7 +56,7 @@ public class AdManager : MonoBehaviour, IUnityAdsListener
                     break;
                 case ShowResult.Finished:       // 第三種可能：完成
                     //print("完成");
-                    player.Revival();           // 玩家.復活
+                    GameObject.Find("鼠王").GetComponent<Player>().Revival();
                     break;
             }
         }
